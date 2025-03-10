@@ -5,11 +5,11 @@ import SemanticAnalyzer
 import CodeGenerator
 
 TOKEN_SPECIFICATION = [
-    ('WHILE', r'\bwhile\b'),
-    ('EQUALITY', r'\bis\b'),
-    ('NOT', r'\bnot\b'),
-    ('IF', r'\bif\b'),
-    ('ELSE', r'\belse\b'),
+    ('WHILE', r'\bwhile\b'),    # While statement
+    ('EQUALITY', r'\bis\b'),    # == statement
+    ('NOT', r'\bnot\b'),    # not statement
+    ('IF', r'\bif\b'),    # If statement
+    ('ELSE', r'\belse\b'),    # Else statement
     ('PRINT', r'\bprint\b'),  # Print statement
     ('STRING', r'"[^"]*"'),   # String literal
     ('NUMBER', r'\b\d+(\.\d*)?\b'),  # Integer or decimal number
@@ -44,33 +44,22 @@ def lexer(code: str) -> List[Tuple[str, str]]:
 if __name__ == "__main__":
     final_code= ""
     analyzer = SemanticAnalyzer.SemanticAnalyzer()
-    with open("/Users/amaniagrawal/Downloads/tester.txt", "r") as file:
+    with open("/Users/amaniagrawal/Downloads/example.txt", "r") as file:
         while (line := file.readline()):
             code = line.strip()
             if not code or code[0]=="/":
                 continue
-            
             tokens = lexer(line)
-            print("Lexer:")
-            print(tokens)
-
             token = tokens
             parsed = parser.Parser(token)
             ast = parsed.parse()
-            print("Parser:")
-            print(ast)
-
-            
             analyzer.analyze(ast)
             print("Semantic analysis passed.")
-
-            spaces = ""
-            for i in line:
-                if i==" ":
-                    spaces+=" "
-                else:
-                    break
-
+           spaces = ""  
+            for i in line:  
+                if i != " ":
+                    break  
+                spaces += i  
             generator = CodeGenerator.CodeGenerator(spaces)
             final_code += generator.generate(ast)+"\n"
     print(final_code)
