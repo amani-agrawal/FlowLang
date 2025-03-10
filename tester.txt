@@ -1,0 +1,13 @@
+x = 1
+print(x)
+i = x
+while i < 10
+    if not i is 4
+        print("Low")
+    else
+        if i is x
+            print("LOL")
+        else
+            print("Max")
+    i = i+1
+/ First code written by amani in his language
